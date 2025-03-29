@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rompecabezas</title>
+    <link rel="stylesheet" href="puzzle.css">
+</head>
+<body>
+    <div class="puzzle-container" id="puzzle"></div>
+    
+    <script>
+        const imageUrl = 'assets/puzzle-1.jpg'; // Reemplaza con tu imagen
+        const puzzleContainer = document.getElementById("puzzle");
+        const pieces = [];
+        
+        for (let row = 0; row < 3; row++) {
+            for (let col = 0; col < 3; col++) {
+                const piece = document.createElement("div");
+                piece.classList.add("piece");
+                piece.style.backgroundImage = `url(${imageUrl})`;
+                piece.style.backgroundPosition = `-${col * 100}px -${row * 100}px`;
+                piece.setAttribute("data-id", row * 3 + col);
+                pieces.push(piece);
+            }
+        }
+        
+        pieces.sort(() => Math.random() - 0.5);
+        pieces.forEach(piece => puzzleContainer.appendChild(piece));
+
+        let draggedPiece = null;
+        
+        pieces.forEach(piece => {
+            piece.draggable = true;
+            
+            piece.addEventListener("dragstart", (e) => {
+                draggedPiece = e.target;
+            });
+            
+            piece.addEventListener("dragover", (e) => {
+                e.preventDefault();
+            });
+            
+            piece.addEventListener("drop", (e) => {
+                if (draggedPiece) {
+                    let temp = e.target.style.backgroundPosition;
+                    e.target.style.backgroundPosition = draggedPiece.style.backgroundPosition;
+                    draggedPiece.style.backgroundPosition = temp;
+                    
+                    let tempId = e.target.getAttribute("data-id");
+                    e.target.setAttribute("data-id", draggedPiece.getAttribute("data-id"));
+                    draggedPiece.setAttribute("data-id", tempId);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
