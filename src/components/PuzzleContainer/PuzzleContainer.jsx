@@ -151,14 +151,14 @@ const PuzzleContainer = () => {
         onDifficultyChange={(e) => setDifficulty(e.target.value)}
         difficultyLevels={DIFFICULTY_LEVELS}
       />
-      <div className="puzzle-container" ref={containerRef}>
+      <div className={`puzzle-container ${isComplete ? 'completed' : ''}`} ref={containerRef}>
         {isComplete ? (
           <img 
-            src="/images/puxxle-1-3_5.png" 
+            src={"/images/puzzle-1.jpg"} 
             alt="Puzzle completado" 
             style={{
-              width: '90%',
-              height: '90%',
+              width: '800px',
+              height: '800px',
               objectFit: 'contain',
               margin: 'auto',
               display: 'block'
