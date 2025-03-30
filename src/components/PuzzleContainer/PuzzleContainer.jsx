@@ -25,7 +25,7 @@ const PuzzleContainer = () => {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const { rows, cols, image } = DIFFICULTY_LEVELS[difficulty];
+    const { rows, cols, imagePuzzle } = DIFFICULTY_LEVELS[difficulty];
     const totalPieces = rows * cols;
     
     const containerWidth = containerRef.current.clientWidth;
@@ -45,7 +45,7 @@ const PuzzleContainer = () => {
         correctY: row * pieceHeight,
         width: pieceWidth,
         height: pieceHeight,
-        image: image,
+        image: imagePuzzle,
         isDragging: false,
         backgroundX: -col * pieceWidth,
         backgroundY: -row * pieceHeight,
@@ -76,7 +76,7 @@ const PuzzleContainer = () => {
       <div className={`puzzle-container ${isComplete ? 'completed' : ''}`} ref={containerRef}>
         {isComplete ? (
           <img 
-            src={DIFFICULTY_LEVELS[difficulty].image}
+            src={DIFFICULTY_LEVELS[difficulty].imageCompleted}
             alt="Puzzle completado" 
             style={{
               width: '100%',
