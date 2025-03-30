@@ -1,0 +1,142 @@
+.puzzle-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.puzzle-container {
+  position: relative;
+  width: 100%;
+  height: 95vh;
+  max-width: 95vw;
+  max-height: 95vh;
+  background-color: #2a2a2a;
+  border: 2px solid #3a3a3a;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.puzzle-container img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  margin: auto;
+  display: block;
+  animation: fadeInScale 1s ease forwards;
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.difficulty-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #2a2a2a;
+}
+
+.difficulty-selector label {
+  color: #fff;
+  font-weight: 500;
+}
+
+.difficulty-selector select {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: 2px solid #3a3a3a;
+  font-size: 1rem;
+  background-color: #2a2a2a;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.difficulty-selector select:hover {
+  border-color: currentColor;
+  transform: translateY(-1px);
+}
+
+.difficulty-selector select:focus {
+  outline: none;
+  border-color: currentColor;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+.difficulty-selector select option {
+  background-color: #2a2a2a;
+  color: inherit;
+  font-weight: 500;
+}
+
+.puzzle-piece {
+  position: absolute;
+  cursor: move;
+  background-color: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  will-change: transform;
+  user-select: none;
+  background-size: cover;
+  background-position: center;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  border: 1px solid #ccc;
+}
+
+.puzzle-piece.completed {
+  animation: fadeOut 0.5s ease forwards;
+  box-shadow: none !important;
+  border: none;
+  cursor: default;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+.puzzle-piece.dragging {
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+}
+
+.puzzle-piece.completed.dragging {
+  box-shadow: none !important;
+  transform: none;
+} 
