@@ -5,6 +5,8 @@ import DifficultyContainer from '../DifficultyContainer/DifficultyContainer';
 import { usePuzzle } from '../../context/PuzzleContext';
 import { DIFFICULTY_LEVELS } from '../../constants/difficulty';
 import './PuzzleContainer.css';
+import CompleteButton from '../CompleteButton/CompleteButton';
+import Timer from '../Timer/Timer';
 
 const PuzzleContainer = () => {
   const containerRef = useRef(null);
@@ -14,12 +16,10 @@ const PuzzleContainer = () => {
     difficulty,
     resetCounter,
     setPieces,
-    setDifficulty,
     handleDragStart,
     handleDragEnd,
     handleDrop,
-    handlePlayAgain,
-    handleNextLevel
+    handleDifficultyChange
   } = usePuzzle();
 
   useEffect(() => {
@@ -70,41 +70,34 @@ const PuzzleContainer = () => {
       <h1>Dinopuzzle</h1>
       <DifficultyContainer 
         difficulty={difficulty}
-        onDifficultyChange={(e) => setDifficulty(e.target.value)}
+        onDifficultyChange={handleDifficultyChange}
         difficultyLevels={DIFFICULTY_LEVELS}
       />
-      <div className={`puzzle-container ${isComplete ? 'completed' : ''}`} ref={containerRef}>
-        {isComplete ? (
-          <img 
-            src={DIFFICULTY_LEVELS[difficulty].imageCompleted}
-            alt="Puzzle completado" 
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
-              margin: 'auto',
-              display: 'block'
-            }}
-          />
-        ) : (
-          pieces.map((piece) => (
-            <PuzzlePiece
-              key={piece.id}
-              piece={piece}
-              onDragStart={handleDragStart}
-              onDragEnd={handleDragEnd}
-              onDrop={handleDrop}
-              onDragOver={(e) => e.preventDefault()}
+      <div className="puzzle-layout">
+        <Timer />
+        <div className={`puzzle-container ${isComplete ? 'completed' : ''}`} ref={containerRef}>
+          {isComplete ? (
+            <img 
+              className='puzzle-completed'
+              src={DIFFICULTY_LEVELS[difficulty].imageCompleted}
+              alt="Puzzle completado" 
             />
-          ))
-        )}
+          ) : (
+            pieces.map((piece) => (
+              <PuzzlePiece
+                key={piece.id}
+                piece={piece}
+                onDragStart={handleDragStart}
+                onDragEnd={handleDragEnd}
+                onDrop={handleDrop}
+                onDragOver={(e) => e.preventDefault()}
+              />
+            ))
+          )}
+        </div>
       </div>
-      {isComplete && (
-        <CompletionMessage 
-          onPlayAgain={handlePlayAgain}
-          onNextLevel={handleNextLevel}
-        />
-      )}
+      {isComplete && <CompletionMessage />}
+      <CompleteButton />
     </div>
   );
 };

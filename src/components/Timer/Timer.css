@@ -1,0 +1,27 @@
+.timer {
+  position: absolute;
+  left: 2rem;
+  top: 0;
+  background-color: #2a2a2a;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 2px solid #3a3a3a;
+  color: #fff;
+  text-align: center;
+  min-width: 150px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.timer h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  color: #646cff;
+}
+
+.time-display {
+  font-size: 2rem;
+  font-weight: bold;
+  font-family: monospace;
+  color: #fff;
+  padding: 0.5rem;
+} 

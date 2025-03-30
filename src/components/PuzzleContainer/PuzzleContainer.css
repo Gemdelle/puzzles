@@ -2,11 +2,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0;
   width: 100%;
-  height: 100%;
-  padding: 0;
-  box-sizing: border-box;
+}
+
+.puzzle-layout {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  padding: 0 2rem;
+  margin-top: 1rem;
+  position: relative;
 }
 
 .puzzle-container {
@@ -18,11 +24,11 @@
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   overflow: hidden;
-  margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0;
+  margin: 0 auto;
   transition: transform 0.3s ease;
 }
 
@@ -30,15 +36,14 @@
   transform: translateX(-150px);
 }
 
-.puzzle-container img {
-  max-width: 90%;
-  max-height: 90%;
-  object-fit: contain;
+.puzzle-container .puzzle-completed {
+  object-fit: fill;
   margin: auto;
   display: block;
   animation: fadeInScale 1s ease forwards;
   opacity: 0;
   transform: scale(0.95);
+  width: 100%;
 }
 
 @keyframes fadeInScale {

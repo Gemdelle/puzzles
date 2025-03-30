@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 
 const PuzzleContext = createContext(null);
 
@@ -8,6 +8,35 @@ export const PuzzleProvider = ({ children }) => {
   const [isComplete, setIsComplete] = useState(false);
   const [difficulty, setDifficulty] = useState('easy');
   const [resetCounter, setResetCounter] = useState(0);
+  const [time, setTime] = useState(0);
+
+  // Efecto para resetear el tiempo cuando cambia la dificultad
+  useEffect(() => {
+    setTime(0);
+  }, [difficulty]);
+
+  // Efecto para el timer
+  useEffect(() => {
+    let intervalId;
+
+    if (!isComplete) {
+      intervalId = setInterval(() => {
+        setTime(prev => prev + 1);
+      }, 1000);
+    }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [isComplete]);
+
+  const formatTime = useCallback((seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  }, []);
 
   const handleDragStart = useCallback((e, piece) => {
     setDraggedPiece(piece);
@@ -66,10 +95,42 @@ export const PuzzleProvider = ({ children }) => {
   const handleNextLevel = useCallback(() => {
     const DIFFICULTY_ORDER = ['easy', 'medium', 'hard'];
     const currentIndex = DIFFICULTY_ORDER.indexOf(difficulty);
+    
     if (currentIndex < DIFFICULTY_ORDER.length - 1) {
-      setDifficulty(DIFFICULTY_ORDER[currentIndex + 1]);
+      // Primero reseteamos todo
+      setTime(0);
+      setIsComplete(false);
+      
+      // Pequeño delay para asegurar que el CompletionMessage se cierre antes de cambiar la dificultad
+      setTimeout(() => {
+        setDifficulty(DIFFICULTY_ORDER[currentIndex + 1]);
+        setResetCounter(prev => prev + 1);
+      }, 100);
     }
   }, [difficulty]);
+
+  const handleCompletePuzzle = useCallback(() => {
+    // Colocar cada pieza en su posición correcta
+    setPieces(prevPieces => 
+      prevPieces.map(piece => ({
+        ...piece,
+        currentX: piece.correctX,
+        currentY: piece.correctY,
+        isDragging: false
+      }))
+    );
+    
+    // Marcar como completo
+    setIsComplete(true);
+  }, []);
+
+  // Handler para cambiar dificultad
+  const handleDifficultyChange = useCallback((e) => {
+    setTime(0); // Resetear el tiempo
+    setDifficulty(e.target.value);
+    setIsComplete(false);
+    setResetCounter(prev => prev + 1);
+  }, []);
 
   const value = {
     pieces,
@@ -78,12 +139,16 @@ export const PuzzleProvider = ({ children }) => {
     isComplete,
     difficulty,
     resetCounter,
+    time,
+    formatTime,
     setDifficulty,
     handleDragStart,
     handleDragEnd,
     handleDrop,
     handlePlayAgain,
-    handleNextLevel
+    handleNextLevel,
+    handleCompletePuzzle,
+    handleDifficultyChange,
   };
 
   return (

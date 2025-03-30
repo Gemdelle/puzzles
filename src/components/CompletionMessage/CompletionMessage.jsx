@@ -1,21 +1,55 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './CompletionMessage.css';
+import { usePuzzle } from '../../context/PuzzleContext';
 
-const CompletionMessage = ({ onPlayAgain, onNextLevel }) => {
+function CompletionMessage() {
+  const { 
+    time,
+    formatTime, 
+    handlePlayAgain, 
+    handleNextLevel,
+    difficulty 
+  } = usePuzzle();
+
+  const isLastLevel = difficulty === 'hard';
+
   return (
     <>
       <div className="overlay" />
       <div className="completion-message">
-        <button className="close-button" onClick={onPlayAgain}>×</button>
-        <h2>¡Felicitaciones!</h2>
-        <p>Has completado el puzzle</p>
-        <div className="button-container">
-          <button onClick={onPlayAgain}>Jugar de nuevo</button>
-          <button onClick={onNextLevel} className="next-level">Siguiente nivel</button>
-        </div>
+        <button className="close-button" onClick={handlePlayAgain}>×</button>
+        {isLastLevel ? (
+          // Mensaje para el último nivel
+          <>
+            <h2>¡Felicitaciones!</h2>
+            <p>Has completado todos los niveles</p>
+            <p>¡Eres un maestro del puzzle!</p>
+            <p className="completion-time">
+              Tiempo final: {formatTime(time)}
+            </p>
+          </>
+        ) : (
+          // Mensaje normal para otros niveles
+          <>
+            <h2>¡Felicitaciones!</h2>
+            <p>Has completado el puzzle</p>
+            <p className="completion-time">
+              Tiempo: {formatTime(time)}
+            </p>
+            <div className="button-container">
+              <button onClick={handlePlayAgain}>Jugar de nuevo</button>
+              <button 
+                onClick={handleNextLevel} 
+                className="next-level"
+              >
+                Siguiente nivel
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </>
   );
-};
+}
 
 export default CompletionMessage; 
