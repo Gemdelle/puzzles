@@ -5,9 +5,27 @@ import DifficultyContainer from '../DifficultyContainer/DifficultyContainer';
 import './PuzzleContainer.css';
 
 const DIFFICULTY_LEVELS = {
-  easy: { name: 'Fácil', rows: 3, cols: 5, color: '#4CAF50' },
-  medium: { name: 'Medio', rows: 5, cols: 5, color: '#FFC107' },
-  hard: { name: 'Difícil', rows: 7, cols: 12, color: '#F44336' }
+  easy: { 
+    name: 'Fácil', 
+    rows: 3, 
+    cols: 5, 
+    color: '#4CAF50',
+    image: '/images/puzzle-1-3_5.png'
+  },
+  medium: { 
+    name: 'Medio', 
+    rows: 5, 
+    cols: 8, 
+    color: '#FFC107',
+    image: '/images/puzzle-2-5_8.png'
+  },
+  hard: { 
+    name: 'Difícil', 
+    rows: 7, 
+    cols: 12, 
+    color: '#F44336',
+    image: '/images/puzzle-3-7_12.png'
+  }
 };
 
 const DIFFICULTY_ORDER = ['easy', 'medium', 'hard'];
@@ -24,7 +42,7 @@ const PuzzleContainer = () => {
 
     const containerWidth = containerRef.current.clientWidth;
     const containerHeight = containerRef.current.clientHeight;
-    const { rows, cols } = DIFFICULTY_LEVELS[difficulty];
+    const { rows, cols, image } = DIFFICULTY_LEVELS[difficulty];
     const totalPieces = rows * cols;
 
     // Calcular el tamaño de cada pieza
@@ -44,7 +62,7 @@ const PuzzleContainer = () => {
         correctY: row * pieceHeight,
         width: pieceWidth,
         height: pieceHeight,
-        image: '/images/puxxle-1-3_5.png',
+        image: image,
         isDragging: false,
         backgroundX: -col * pieceWidth,
         backgroundY: -row * pieceHeight,
