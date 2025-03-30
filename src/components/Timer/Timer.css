@@ -24,4 +24,21 @@
   font-family: monospace;
   color: #fff;
   padding: 0.5rem;
+}
+
+.time-display.time-out {
+  color: #ff4757;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 } 

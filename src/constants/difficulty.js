@@ -6,6 +6,7 @@ export const DIFFICULTY_LEVELS = {
     color: '#4CAF50',
     imageCompleted: '/images/puzzle-1.jpg',
     imagePuzzle: '/images/puzzle-1-3_5.png',
+    time: 5
   },
   medium: { 
     name: 'Medio', 
@@ -14,6 +15,7 @@ export const DIFFICULTY_LEVELS = {
     color: '#FFC107',
     imageCompleted: '/images/puzzle-1.jpg',
     imagePuzzle: '/images/puzzle-2-5_8.png',
+    time: 360
   },
   hard: { 
     name: 'Difícil', 
@@ -22,5 +24,6 @@ export const DIFFICULTY_LEVELS = {
     color: '#F44336',
     imageCompleted: '/images/puzzle-1.jpg',
     imagePuzzle: '/images/puzzle-3-7_12.png',
+    time: 1800
   }
 }; 

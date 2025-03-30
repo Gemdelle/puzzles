@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import { DIFFICULTY_LEVELS } from '../constants/difficulty';
 
 const PuzzleContext = createContext(null);
 
@@ -8,20 +9,29 @@ export const PuzzleProvider = ({ children }) => {
   const [isComplete, setIsComplete] = useState(false);
   const [difficulty, setDifficulty] = useState('easy');
   const [resetCounter, setResetCounter] = useState(0);
-  const [time, setTime] = useState(0);
+  const [showTimeoutMessage, setShowTimeoutMessage] = useState(false);
+
+  const [time, setTime] = useState(DIFFICULTY_LEVELS['easy'].time);
 
   // Efecto para resetear el tiempo cuando cambia la dificultad
   useEffect(() => {
-    setTime(0);
+    setTime(DIFFICULTY_LEVELS[difficulty].time);
   }, [difficulty]);
 
   // Efecto para el timer
   useEffect(() => {
     let intervalId;
 
-    if (!isComplete) {
+    if (!isComplete && time > 0 && !showTimeoutMessage) {
       intervalId = setInterval(() => {
-        setTime(prev => prev + 1);
+        setTime(prev => {
+          if (prev <= 1) {
+            clearInterval(intervalId);
+            setShowTimeoutMessage(true);
+            return 0;
+          }
+          return prev - 1;
+        });
       }, 1000);
     }
 
@@ -30,7 +40,7 @@ export const PuzzleProvider = ({ children }) => {
         clearInterval(intervalId);
       }
     };
-  }, [isComplete]);
+  }, [isComplete, showTimeoutMessage]);
 
   const formatTime = useCallback((seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -88,24 +98,21 @@ export const PuzzleProvider = ({ children }) => {
   }, [draggedPiece]);
 
   const handlePlayAgain = useCallback(() => {
+    setTime(DIFFICULTY_LEVELS[difficulty].time);
     setIsComplete(false);
     setResetCounter(prev => prev + 1);
-  }, []);
+  }, [difficulty]);
 
   const handleNextLevel = useCallback(() => {
     const DIFFICULTY_ORDER = ['easy', 'medium', 'hard'];
     const currentIndex = DIFFICULTY_ORDER.indexOf(difficulty);
     
     if (currentIndex < DIFFICULTY_ORDER.length - 1) {
-      // Primero reseteamos todo
-      setTime(0);
+      const nextDifficulty = DIFFICULTY_ORDER[currentIndex + 1];
+      setTime(DIFFICULTY_LEVELS[nextDifficulty].time);
       setIsComplete(false);
-      
-      // Pequeño delay para asegurar que el CompletionMessage se cierre antes de cambiar la dificultad
-      setTimeout(() => {
-        setDifficulty(DIFFICULTY_ORDER[currentIndex + 1]);
-        setResetCounter(prev => prev + 1);
-      }, 100);
+      setDifficulty(nextDifficulty);
+      setResetCounter(prev => prev + 1);
     }
   }, [difficulty]);
 
@@ -126,11 +133,19 @@ export const PuzzleProvider = ({ children }) => {
 
   // Handler para cambiar dificultad
   const handleDifficultyChange = useCallback((e) => {
-    setTime(0); // Resetear el tiempo
-    setDifficulty(e.target.value);
+    const newDifficulty = e.target.value;
+    setTime(DIFFICULTY_LEVELS[newDifficulty].time);
+    setDifficulty(newDifficulty);
     setIsComplete(false);
     setResetCounter(prev => prev + 1);
   }, []);
+
+  const handleTimeoutClose = useCallback(() => {
+    setShowTimeoutMessage(false);
+    setTime(DIFFICULTY_LEVELS[difficulty].time);
+    setIsComplete(false);
+    setResetCounter(prev => prev + 1);
+  }, [difficulty]);
 
   const value = {
     pieces,
@@ -149,6 +164,8 @@ export const PuzzleProvider = ({ children }) => {
     handleNextLevel,
     handleCompletePuzzle,
     handleDifficultyChange,
+    showTimeoutMessage,
+    handleTimeoutClose,
   };
 
   return (
