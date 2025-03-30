@@ -40,21 +40,22 @@ const PuzzleContainer = () => {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const containerWidth = containerRef.current.clientWidth;
-    const containerHeight = containerRef.current.clientHeight;
     const { rows, cols, image } = DIFFICULTY_LEVELS[difficulty];
     const totalPieces = rows * cols;
 
-    // Calcular el tamaño de cada pieza
+    // Obtener el tamaño actual del contenedor
+    const containerWidth = containerRef.current.clientWidth;
+    const containerHeight = containerRef.current.clientHeight;
+
+    // Calcular el tamaño de cada pieza basado en el tamaño del contenedor
     const pieceWidth = containerWidth / cols;
     const pieceHeight = containerHeight / rows;
 
-    // Crear las piezas
-    const newPieces = [];
-    for (let i = 0; i < totalPieces; i++) {
+    // Crear las piezas iniciales
+    const newPieces = Array.from({ length: totalPieces }, (_, i) => {
       const row = Math.floor(i / cols);
       const col = i % cols;
-      newPieces.push({
+      return {
         id: i.toString(),
         currentX: col * pieceWidth,
         currentY: row * pieceHeight,
@@ -68,20 +69,19 @@ const PuzzleContainer = () => {
         backgroundY: -row * pieceHeight,
         backgroundWidth: containerWidth,
         backgroundHeight: containerHeight
-      });
-    }
+      };
+    });
 
-    // Mezclar las piezas
-    const shuffledPieces = [...newPieces].sort(() => Math.random() - 0.5);
-    // Asignar posiciones aleatorias a las piezas mezcladas
-    const randomizedPieces = shuffledPieces.map((piece, index) => ({
-      ...piece,
-      currentX: (index % cols) * pieceWidth,
-      currentY: Math.floor(index / cols) * pieceHeight
-    }));
+    // Mezclar y establecer las piezas
+    const randomizedPieces = [...newPieces]
+      .sort(() => Math.random() - 0.5)
+      .map((piece, index) => ({
+        ...piece,
+        currentX: (index % cols) * pieceWidth,
+        currentY: Math.floor(index / cols) * pieceHeight
+      }));
 
     setPieces(randomizedPieces);
-    setIsComplete(false);
   }, [difficulty]);
 
   const handleDragStart = (e, piece) => {
@@ -154,11 +154,11 @@ const PuzzleContainer = () => {
       <div className={`puzzle-container ${isComplete ? 'completed' : ''}`} ref={containerRef}>
         {isComplete ? (
           <img 
-            src={"/images/puzzle-1.jpg"} 
+            src={DIFFICULTY_LEVELS[difficulty].image}
             alt="Puzzle completado" 
             style={{
-              width: '800px',
-              height: '800px',
+              width: '100%',
+              height: '100%',
               objectFit: 'contain',
               margin: 'auto',
               display: 'block'
