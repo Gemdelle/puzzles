@@ -4,7 +4,7 @@ import { usePuzzle } from '../../context/PuzzleContext';
 
 function CompletionMessage() {
   const { 
-    time,
+    elapsedTime,
     formatTime, 
     handlePlayAgain, 
     handleNextLevel,
@@ -25,7 +25,7 @@ function CompletionMessage() {
             <p>Has completado todos los niveles</p>
             <p>¡Eres un maestro del puzzle!</p>
             <p className="completion-time">
-              Tiempo final: {formatTime(time)}
+              Lo resolviste en: {formatTime(elapsedTime)}
             </p>
           </>
         ) : (
@@ -34,7 +34,7 @@ function CompletionMessage() {
             <h2>¡Felicitaciones!</h2>
             <p>Has completado el puzzle</p>
             <p className="completion-time">
-              Tiempo: {formatTime(time)}
+              Lo resolviste en: {formatTime(elapsedTime)}
             </p>
             <div className="button-container">
               <button onClick={handlePlayAgain}>Jugar de nuevo</button>

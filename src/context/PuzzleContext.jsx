@@ -10,6 +10,7 @@ export const PuzzleProvider = ({ children }) => {
   const [difficulty, setDifficulty] = useState('easy');
   const [resetCounter, setResetCounter] = useState(0);
   const [showTimeoutMessage, setShowTimeoutMessage] = useState(false);
+  const [elapsedTime, setElapsedTime] = useState(0);
 
   const [time, setTime] = useState(DIFFICULTY_LEVELS['easy'].time);
 
@@ -41,6 +42,15 @@ export const PuzzleProvider = ({ children }) => {
       }
     };
   }, [isComplete, showTimeoutMessage]);
+
+  // Cuando se completa el puzzle, calculamos el tiempo transcurrido
+  useEffect(() => {
+    if (isComplete) {
+      const totalTime = DIFFICULTY_LEVELS[difficulty].time;
+      const timeRemaining = time;
+      setElapsedTime(totalTime - timeRemaining);
+    }
+  }, [isComplete, difficulty, time]);
 
   const formatTime = useCallback((seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -166,6 +176,7 @@ export const PuzzleProvider = ({ children }) => {
     handleDifficultyChange,
     showTimeoutMessage,
     handleTimeoutClose,
+    elapsedTime,
   };
 
   return (
