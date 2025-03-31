@@ -1,12 +1,15 @@
 import React from 'react';
 import PuzzleContainer from './components/PuzzleContainer/PuzzleContainer';
+import { PuzzleProvider } from './context/PuzzleContext';
 import './App.css';
 
 function App() {
   return (
-    <div className="app">
-      <PuzzleContainer />
-    </div>
+    <PuzzleProvider>
+      <div className="app">
+        <PuzzleContainer />
+      </div>
+    </PuzzleProvider>
   );
 }
 

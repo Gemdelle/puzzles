@@ -34,8 +34,9 @@
 }
 
 .completion-message h2 {
-  margin-bottom: 1rem;
+  margin: 0 0 1rem 0;
   color: #646cff;
+  font-size: 1.8rem;
 }
 
 .button-container {
@@ -81,8 +82,16 @@
 }
 
 .completion-message p {
-  margin: 0;
+  margin: 0.5rem 0;
   font-size: 1.2rem;
+}
+
+/* Estilos específicos para el mensaje final */
+.completion-message p:nth-child(3) {
+  color: #4CAF50;
+  font-weight: bold;
+  font-size: 1.4rem;
+  margin: 1rem 0;
 }
 
 @keyframes fadeIn {
