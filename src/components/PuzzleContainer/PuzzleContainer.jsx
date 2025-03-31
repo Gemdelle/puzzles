@@ -76,17 +76,16 @@ const PuzzleContainer = () => {
         onDifficultyChange={handleDifficultyChange}
         difficultyLevels={DIFFICULTY_LEVELS}
       />
+      <Timer />
+      <div className='puzzle-box'>
       <div className="puzzle-layout">
-        <Timer />
+        
         <div className={`puzzle-container ${isComplete ? 'completed' : ''}`} ref={containerRef}>
           {isComplete ? (
             <img 
             className='puzzle-completed'
               src={DIFFICULTY_LEVELS[difficulty].imageCompleted}
               alt="Puzzle completado" 
-              style={{
-           
-              }}
             />
           ) : (
             pieces.map((piece) => (
@@ -100,6 +99,7 @@ const PuzzleContainer = () => {
               />
             ))
           )}
+        </div>
         </div>
       </div>
       {isComplete && <CompletionMessage />}
