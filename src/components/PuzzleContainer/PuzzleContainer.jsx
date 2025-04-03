@@ -5,7 +5,6 @@ import DifficultyContainer from '../DifficultyContainer/DifficultyContainer';
 import { usePuzzle } from '../../context/PuzzleContext';
 import { DIFFICULTY_LEVELS } from '../../constants/difficulty';
 import './PuzzleContainer.css';
-import CompleteButton from '../CompleteButton/CompleteButton';
 import Timer from '../Timer/Timer';
 import TimeoutMessage from '../TimeoutMessage/TimeoutMessage';
 
@@ -76,35 +75,33 @@ const PuzzleContainer = () => {
         onDifficultyChange={handleDifficultyChange}
         difficultyLevels={DIFFICULTY_LEVELS}
       />
-      <Timer />
       <div className='puzzle-box'>
-      <div className="puzzle-layout">
-        
-        <div className={`puzzle-container ${isComplete ? 'completed' : ''}`} ref={containerRef}>
-          {isComplete ? (
-            <img 
-            className='puzzle-completed'
-              src={DIFFICULTY_LEVELS[difficulty].imageCompleted}
-              alt="Puzzle completado" 
-            />
-          ) : (
-            pieces.map((piece) => (
-              <PuzzlePiece
-                key={piece.id}
-                piece={piece}
-                onDragStart={handleDragStart}
-                onDragEnd={handleDragEnd}
-                onDrop={handleDrop}
-                onDragOver={(e) => e.preventDefault()}
+        <Timer />
+        <div className="puzzle-layout">
+          <div className={`puzzle-container ${isComplete ? 'completed' : ''}`} ref={containerRef}>
+            {isComplete ? (
+              <img 
+                className='puzzle-completed'
+                src={DIFFICULTY_LEVELS[difficulty].imageCompleted}
+                alt="Puzzle completado" 
               />
-            ))
-          )}
-        </div>
+            ) : (
+              pieces.map((piece) => (
+                <PuzzlePiece
+                  key={piece.id}
+                  piece={piece}
+                  onDragStart={handleDragStart}
+                  onDragEnd={handleDragEnd}
+                  onDrop={handleDrop}
+                  onDragOver={(e) => e.preventDefault()}
+                />
+              ))
+            )}
+          </div>
         </div>
       </div>
       {isComplete && <CompletionMessage />}
       {showTimeoutMessage && <TimeoutMessage onClose={handleTimeoutClose} />}
-      <CompleteButton />
     </div>
   );
 };
