@@ -1,0 +1,59 @@
+.puzzle-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  width: 300px;
+}
+
+.puzzle-card:hover {
+  transform: translateY(-5px);
+}
+
+.puzzle-title {
+  color: #fff;
+  margin: 0;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.puzzle-image-container {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.puzzle-card:hover .puzzle-image-container {
+  transform: scale(1.05);
+}
+
+.puzzle-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.difficulty-logos {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.difficulty-logo {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  background: transparent;
+  mix-blend-mode: screen;
+}
+
+.difficulty-logo:hover {
+  transform: scale(1.1);
+} 

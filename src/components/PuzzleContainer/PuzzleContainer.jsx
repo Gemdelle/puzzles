@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PuzzlePiece from '../PuzzlePiece/PuzzlePiece';
 import CompletionMessage from '../CompletionMessage/CompletionMessage';
+<<<<<<< Updated upstream
 import DifficultyContainer from '../DifficultyContainer/DifficultyContainer';
+=======
+import { usePuzzle } from '../../context/PuzzleContext';
+import { DIFFICULTY_LEVELS } from '../../constants/difficulty';
+>>>>>>> Stashed changes
 import './PuzzleContainer.css';
 
 const DIFFICULTY_LEVELS = {
@@ -30,16 +35,42 @@ const DIFFICULTY_LEVELS = {
 
 const DIFFICULTY_ORDER = ['easy', 'medium', 'hard'];
 
+<<<<<<< Updated upstream
 const PuzzleContainer = () => {
   const [pieces, setPieces] = useState([]);
   const [draggedPiece, setDraggedPiece] = useState(null);
   const [isComplete, setIsComplete] = useState(false);
   const [difficulty, setDifficulty] = useState('easy');
   const containerRef = useRef(null);
+=======
+const PuzzleContainer = ({ onReturnToMenu, selectedPuzzle }) => {
+  const containerRef = useRef(null);
+  const {
+    pieces,
+    isComplete,
+    difficulty,
+    resetCounter,
+    setPieces,
+    handleDragStart,
+    handleDragEnd,
+    handleDrop,
+    showTimeoutMessage,
+    handleTimeoutClose,
+    getPuzzleImage,
+    getCompletedImage,
+    setSelectedPuzzleId
+  } = usePuzzle();
+>>>>>>> Stashed changes
 
   useEffect(() => {
     if (!containerRef.current) return;
 
+<<<<<<< Updated upstream
+=======
+    const { rows, cols } = DIFFICULTY_LEVELS[difficulty];
+    const totalPieces = rows * cols;
+    
+>>>>>>> Stashed changes
     const containerWidth = containerRef.current.clientWidth;
     const containerHeight = containerRef.current.clientHeight;
     const { rows, cols, image } = DIFFICULTY_LEVELS[difficulty];
@@ -62,7 +93,11 @@ const PuzzleContainer = () => {
         correctY: row * pieceHeight,
         width: pieceWidth,
         height: pieceHeight,
+<<<<<<< Updated upstream
         image: image,
+=======
+        image: getPuzzleImage(selectedPuzzle.id, difficulty),
+>>>>>>> Stashed changes
         isDragging: false,
         backgroundX: -col * pieceWidth,
         backgroundY: -row * pieceHeight,
@@ -81,6 +116,7 @@ const PuzzleContainer = () => {
     }));
 
     setPieces(randomizedPieces);
+<<<<<<< Updated upstream
     setIsComplete(false);
   }, [difficulty]);
 
@@ -185,6 +221,47 @@ const PuzzleContainer = () => {
           onNextLevel={handleNextLevel}
         />
       )}
+=======
+  }, [difficulty, resetCounter, setPieces, selectedPuzzle.id, getPuzzleImage]);
+
+  return (
+    <div className="puzzle-game">
+      <div className="puzzle-header">
+        <h1>{selectedPuzzle.name}</h1>
+        <button className="return-to-menu" onClick={onReturnToMenu}>
+          Volver al menú
+        </button>
+      </div>
+      <div className='puzzle-box'>
+        <div className="puzzle-layout">
+          <div className={`puzzle-container ${isComplete ? 'completed' : ''}`} ref={containerRef}>
+            {isComplete ? (
+              <img 
+                className='puzzle-completed'
+                src={getCompletedImage(selectedPuzzle.id)}
+                alt="Puzzle completado" 
+              />
+            ) : (
+              pieces.map((piece) => (
+                <PuzzlePiece
+                  key={piece.id}
+                  piece={piece}
+                  onDragStart={handleDragStart}
+                  onDragEnd={handleDragEnd}
+                  onDrop={handleDrop}
+                  onDragOver={(e) => e.preventDefault()}
+                />
+              ))
+            )}
+          </div>
+        </div>
+      </div>
+      <div className="timer-container">
+        <Timer />
+      </div>
+      {isComplete && <CompletionMessage />}
+      {showTimeoutMessage && <TimeoutMessage onClose={handleTimeoutClose} />}
+>>>>>>> Stashed changes
     </div>
   );
 };
