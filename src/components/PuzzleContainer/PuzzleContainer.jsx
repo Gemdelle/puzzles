@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PuzzlePiece from '../PuzzlePiece/PuzzlePiece';
 import CompletionMessage from '../CompletionMessage/CompletionMessage';
 <<<<<<< Updated upstream
@@ -37,10 +37,6 @@ const DIFFICULTY_ORDER = ['easy', 'medium', 'hard'];
 
 <<<<<<< Updated upstream
 const PuzzleContainer = () => {
-  const [pieces, setPieces] = useState([]);
-  const [draggedPiece, setDraggedPiece] = useState(null);
-  const [isComplete, setIsComplete] = useState(false);
-  const [difficulty, setDifficulty] = useState('easy');
   const containerRef = useRef(null);
 =======
 const PuzzleContainer = ({ onReturnToMenu, selectedPuzzle }) => {
@@ -73,19 +69,14 @@ const PuzzleContainer = ({ onReturnToMenu, selectedPuzzle }) => {
 >>>>>>> Stashed changes
     const containerWidth = containerRef.current.clientWidth;
     const containerHeight = containerRef.current.clientHeight;
-    const { rows, cols, image } = DIFFICULTY_LEVELS[difficulty];
-    const totalPieces = rows * cols;
-
-    // Calcular el tamaño de cada pieza
+    
     const pieceWidth = containerWidth / cols;
     const pieceHeight = containerHeight / rows;
 
-    // Crear las piezas
-    const newPieces = [];
-    for (let i = 0; i < totalPieces; i++) {
+    const newPieces = Array.from({ length: totalPieces }, (_, i) => {
       const row = Math.floor(i / cols);
       const col = i % cols;
-      newPieces.push({
+      return {
         id: i.toString(),
         currentX: col * pieceWidth,
         currentY: row * pieceHeight,
@@ -103,17 +94,16 @@ const PuzzleContainer = ({ onReturnToMenu, selectedPuzzle }) => {
         backgroundY: -row * pieceHeight,
         backgroundWidth: containerWidth,
         backgroundHeight: containerHeight
-      });
-    }
+      };
+    });
 
-    // Mezclar las piezas
-    const shuffledPieces = [...newPieces].sort(() => Math.random() - 0.5);
-    // Asignar posiciones aleatorias a las piezas mezcladas
-    const randomizedPieces = shuffledPieces.map((piece, index) => ({
-      ...piece,
-      currentX: (index % cols) * pieceWidth,
-      currentY: Math.floor(index / cols) * pieceHeight
-    }));
+    const randomizedPieces = [...newPieces]
+      .sort(() => Math.random() - 0.5)
+      .map((piece, index) => ({
+        ...piece,
+        currentX: (index % cols) * pieceWidth,
+        currentY: Math.floor(index / cols) * pieceHeight
+      }));
 
     setPieces(randomizedPieces);
 <<<<<<< Updated upstream
@@ -184,7 +174,7 @@ const PuzzleContainer = ({ onReturnToMenu, selectedPuzzle }) => {
       <h1>Dinopuzzle</h1>
       <DifficultyContainer 
         difficulty={difficulty}
-        onDifficultyChange={(e) => setDifficulty(e.target.value)}
+        onDifficultyChange={handleDifficultyChange}
         difficultyLevels={DIFFICULTY_LEVELS}
       />
       <div className={`puzzle-container ${isComplete ? 'completed' : ''}`} ref={containerRef}>

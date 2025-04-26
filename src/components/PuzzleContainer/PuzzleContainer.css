@@ -1,3 +1,7 @@
+html {
+  overflow: hidden;
+}
+
 .puzzle-game {
 <<<<<<< Updated upstream
 =======
@@ -18,7 +22,7 @@
   background-repeat: no-repeat;
 >>>>>>> Stashed changes
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
 <<<<<<< Updated upstream
   gap: 0;
@@ -33,40 +37,63 @@
   width: 70%;
 >>>>>>> Stashed changes
   height: 100%;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.puzzle-container {
-  position: relative;
-  width: 800px;
-  height: 800px;
-  background-color: #2a2a2a;
-  border: 2px solid #3a3a3a;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-  margin: 0 auto;
+  background-color: pink;
+  
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0;
-  transition: transform 0.3s ease;
+}
+
+.puzzle-layout {
+  position: relative;
+  width: 97%;
+  height: 95%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: yellow;
+}
+
+.puzzle-container {
+  width: 100%;
+  height: calc(65vw * 0.5625); /* Proporción 16:10 (10/16 = 0.625) */
+  height: 100%;
+  background-color: #2a2a2a;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.puzzle-container .puzzle-completed {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  margin: auto;
 }
 
 .puzzle-container.completed {
-  transform: translateX(-150px);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.puzzle-container img {
-  max-width: 90%;
-  max-height: 90%;
+.puzzle-container.completed img {
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
+  display: block;
+}
+
+.puzzle-container .puzzle-completed {
+  object-fit: fill;
   margin: auto;
   display: block;
   animation: fadeInScale 1s ease forwards;
   opacity: 0;
   transform: scale(0.95);
+  width: 100%;
 }
 
 @keyframes fadeInScale {
