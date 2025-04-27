@@ -3,8 +3,6 @@ html {
 }
 
 .puzzle-game {
-<<<<<<< Updated upstream
-=======
   width: 90vw;
   height: 90vh;
   display: flex;
@@ -20,14 +18,9 @@ html {
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
->>>>>>> Stashed changes
   display: flex;
   justify-content: center;
   align-items: center;
-<<<<<<< Updated upstream
-  gap: 0;
-  width: 100%;
-=======
   margin-bottom: 0;
   padding: 1.8vw;
 }
@@ -35,7 +28,6 @@ html {
 .puzzle-background {
   position: relative;
   width: 70%;
->>>>>>> Stashed changes
   height: 100%;
   background-color: pink;
   
@@ -197,9 +189,6 @@ html {
 .puzzle-piece.completed.dragging {
   box-shadow: none !important;
   transform: none;
-<<<<<<< Updated upstream
-} 
-=======
 } 
 
 .timer-container {
@@ -250,4 +239,3 @@ html {
 .return-to-menu:active {
   transform: translateY(0);
 }
->>>>>>> Stashed changes

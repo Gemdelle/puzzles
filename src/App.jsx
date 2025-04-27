@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import PuzzleContainer from './components/PuzzleContainer/PuzzleContainer';
-<<<<<<< Updated upstream
-=======
 import PuzzleMenu from './components/PuzzleMenu/PuzzleMenu';
 import { PuzzleProvider, usePuzzle } from './context/PuzzleContext';
->>>>>>> Stashed changes
 import './App.css';
 
 function AppContent() {
@@ -37,15 +34,9 @@ function AppContent() {
 
 function App() {
   return (
-<<<<<<< Updated upstream
-    <div className="app">
-      <PuzzleContainer />
-    </div>
-=======
     <PuzzleProvider>
       <AppContent />
     </PuzzleProvider>
->>>>>>> Stashed changes
   );
 }
 
